@@ -96,32 +96,49 @@ extension GameScene {
     snake.getSprites().forEach { addChild($0) }
   }
 
+  //  func updateSnake() {
+  //    if isGameOver { gameOver() }
+  //
+  //    // Generates random direction
+  ////    var absoluteDirections: [DirectionRelativeToGrid] = [.up, .down, .left, .right]
+  ////    absoluteDirections.removeAll { $0 == snake.getOppositeDirection() }
+  ////    newDirection = absoluteDirections.randomElement()
+  //    newDirection = .up
+  //
+  //    let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right]
+  //    let isLeftBlocked = CollisionDetector.isLeftBlocked(snake: snake, grid: grid)
+  //    let isFrontBlocked = CollisionDetector.isFrontBlocked(snake: snake, grid: grid)
+  //    let isRightBlocked = CollisionDetector.isRightBlocked(snake: snake, grid: grid)
+  //    let allowedDirections = relativeDirections.filter { anton.shouldProceed(isLeftBlocked: isLeftBlocked,
+  //                                                                            isFrontBlocked: isFrontBlocked,
+  //                                                                            isRightBlocked: isRightBlocked,
+  //                                                                            suggestedDirection: $0) }
+  //    var suggestedDirection = snake.getDirection(relativeTo: newDirection)
+  //    if let allowedDirection = allowedDirections.first {
+  //      suggestedDirection = allowedDirection
+  //      snake.setDirection(relativeDirection: suggestedDirection)
+  //      moveSnake()
+  //      drawSnake()
+  //      anton.saveResults(isLeftBlocked: isLeftBlocked,
+  //                        isFrontBlocked: isFrontBlocked,
+  //                        isRightBlocked: isRightBlocked,
+  //                        suggestedDirection: suggestedDirection,
+  //                        shouldProceed: !isGameOver)
+  //    }
+  //  }
+
   func updateSnake() {
     if isGameOver { gameOver() }
-
-    // Generates random direction
-//    var absoluteDirections: [DirectionRelativeToGrid] = [.up, .down, .left, .right]
-//    absoluteDirections.removeAll { $0 == snake.getOppositeDirection() }
-//    newDirection = absoluteDirections.randomElement()
-    newDirection = .up
-
-    let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right]
+    let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right].shuffled()
     let isLeftBlocked = CollisionDetector.isLeftBlocked(snake: snake, grid: grid)
     let isFrontBlocked = CollisionDetector.isFrontBlocked(snake: snake, grid: grid)
     let isRightBlocked = CollisionDetector.isRightBlocked(snake: snake, grid: grid)
-    let allowedDirections = relativeDirections.filter { anton.shouldProceed(isLeftBlocked: isLeftBlocked,
-                                                                            isFrontBlocked: isFrontBlocked,
-                                                                            isRightBlocked: isRightBlocked,
-                                                                            suggestedDirection: $0) }
-    var suggestedDirection = snake.getDirection(relativeTo: newDirection)
-    if let allowedDirection = allowedDirections.first { suggestedDirection = allowedDirection }
-    snake.setDirection(relativeDirection: suggestedDirection)
+    let antonInputs = relativeDirections.map { AntonInput(isLeftBlocked: isLeftBlocked,
+                                                          isFrontBlocked: isFrontBlocked,
+                                                          isRightBlocked: isRightBlocked,
+                                                          suggestedDirection: $0) }
+    snake.setDirection(relativeDirection: anton.shouldProceed(inputs: antonInputs, directions: relativeDirections))
     moveSnake()
     drawSnake()
-    anton.saveResults(isLeftBlocked: isLeftBlocked,
-                      isFrontBlocked: isFrontBlocked,
-                      isRightBlocked: isRightBlocked,
-                      suggestedDirection: suggestedDirection,
-                      shouldProceed: !isGameOver)
   }
 }

@@ -9,6 +9,13 @@
 import Foundation
 import TensorFlow
 
+struct AntonInput {
+  let isLeftBlocked: Bool
+  let isFrontBlocked: Bool
+  let isRightBlocked: Bool
+  let suggestedDirection: DirectionRelativeToMovement
+}
+
 class Anton {
 
   struct GameParameters {
@@ -19,7 +26,7 @@ class Anton {
   struct Model: Layer {
     var layer1 = Dense<Float>(inputSize: Constants.inputLayerSize, outputSize: Constants.hiddenLayerSize, activation: relu)
     var layer2 = Dense<Float>(inputSize: Constants.hiddenLayerSize, outputSize: Constants.hiddenLayerSize, activation: relu)
-    var layer3 = Dense<Float>(inputSize: Constants.hiddenLayerSize, outputSize: Constants.outputLayerSize)
+    var layer3 = Dense<Float>(inputSize: Constants.hiddenLayerSize, outputSize: Constants.outputLayerSize, activation: identity)
 
     @differentiable
     func callAsFunction(_ input: Tensor<Float>) -> Tensor<Float> {
@@ -31,7 +38,7 @@ class Anton {
     static let iterationDataFile = "IterationData.csv"
     static let batchSize = 32
     static let inputLayerSize = 4
-    static let hiddenLayerSize = 10
+    static let hiddenLayerSize = 16
     static let outputLayerSize = 1
     static let learningRate: Float = 0.01
     static let epochCount = 500
@@ -46,7 +53,7 @@ class Anton {
                                      labelColumns: [4]).batched(Constants.batchSize)
 
   func performInitialTraining() {
-    let optimizer = SGD(for: model, learningRate: Constants.learningRate)
+    let optimizer = Adam(for: model, learningRate: Constants.learningRate)
     for epoch in 1...Constants.epochCount {
       var epochLoss: Float = 0
       var epochAccuracy: Float = 0
@@ -99,6 +106,26 @@ class Anton {
     }
 
     return shouldProceed
+  }
+
+  func shouldProceed(inputs: [AntonInput], directions: [DirectionRelativeToMovement]) -> DirectionRelativeToMovement {
+    let features = inputs.map { Tensor<Float>([$0.isLeftBlocked.floatValue,
+                                               $0.isFrontBlocked.floatValue,
+                                               $0.isRightBlocked.floatValue,
+                                               $0.suggestedDirection.rawValue]) }
+    let predictions = model(Tensor<Float>(features)).flattened()
+    let normalizedPredictions = predictions.argmax()
+    let integerPrediction = Int(normalizedPredictions.scalars.first!)
+    let direction = directions[integerPrediction]
+
+    print(inputs.map { $0.suggestedDirection })
+    print(features)
+    print(predictions)
+    print(normalizedPredictions)
+    print(integerPrediction)
+    print(direction)
+
+    return direction
   }
 
   func saveResults(isLeftBlocked: Bool,

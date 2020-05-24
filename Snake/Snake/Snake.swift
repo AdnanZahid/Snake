@@ -31,7 +31,7 @@ class Snake {
   private enum SnakeConstants {
     static let snakeSpeed = 1
     static let cornerRadius: CGFloat = 10
-    static let animationInterval = 1
+    static let animationInterval = 5
   }
 
   private var direction: DirectionRelativeToGrid
