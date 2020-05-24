@@ -8,14 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		F63C4776247A32DE00209206 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C4775247A32DE00209206 /* AppDelegate.swift */; };
-		F63C4778247A32DE00209206 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F63C4777247A32DE00209206 /* GameScene.sks */; };
-		F63C477A247A32DE00209206 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = F63C4779247A32DE00209206 /* Actions.sks */; };
-		F63C477C247A32DE00209206 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C477B247A32DE00209206 /* GameScene.swift */; };
 		F63C477E247A32DE00209206 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C477D247A32DE00209206 /* ViewController.swift */; };
 		F63C4780247A32E100209206 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F63C477F247A32E100209206 /* Assets.xcassets */; };
 		F63C4783247A32E100209206 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F63C4781247A32E100209206 /* Main.storyboard */; };
 		F63C478F247A32E100209206 /* SnakeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C478E247A32E100209206 /* SnakeTests.swift */; };
 		F63C479A247A32E100209206 /* SnakeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C4799247A32E100209206 /* SnakeUITests.swift */; };
+		F63C47AB247A334400209206 /* Anton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47A8247A334400209206 /* Anton.swift */; };
+		F63C47AC247A334400209206 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47AA247A334400209206 /* GameScene.swift */; };
+		F63C47AF247A337D00209206 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47AE247A337D00209206 /* Snake.swift */; };
+		F63C47B1247A33ED00209206 /* GameSceneExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47B0247A33ED00209206 /* GameSceneExtension.swift */; };
+		F63C47B4247A35DC00209206 /* GridNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47B3247A35DC00209206 /* GridNode.swift */; };
+		F63C47B8247A4D9700209206 /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47B6247A4D9700209206 /* FileHandler.swift */; };
+		F63C47B9247A4D9700209206 /* IterationData.csv in Resources */ = {isa = PBXBuildFile; fileRef = F63C47B7247A4D9700209206 /* IterationData.csv */; };
+		F63C47BC247A5FA800209206 /* CollisionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47BB247A5FA800209206 /* CollisionDetector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,9 +43,6 @@
 /* Begin PBXFileReference section */
 		F63C4772247A32DE00209206 /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63C4775247A32DE00209206 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F63C4777247A32DE00209206 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		F63C4779247A32DE00209206 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		F63C477B247A32DE00209206 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		F63C477D247A32DE00209206 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F63C477F247A32E100209206 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F63C4782247A32E100209206 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,6 +54,14 @@
 		F63C4795247A32E100209206 /* SnakeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnakeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63C4799247A32E100209206 /* SnakeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeUITests.swift; sourceTree = "<group>"; };
 		F63C479B247A32E100209206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F63C47A8247A334400209206 /* Anton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Anton.swift; sourceTree = "<group>"; };
+		F63C47AA247A334400209206 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		F63C47AE247A337D00209206 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
+		F63C47B0247A33ED00209206 /* GameSceneExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneExtension.swift; sourceTree = "<group>"; };
+		F63C47B3247A35DC00209206 /* GridNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridNode.swift; sourceTree = "<group>"; };
+		F63C47B6247A4D9700209206 /* FileHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
+		F63C47B7247A4D9700209206 /* IterationData.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IterationData.csv; sourceTree = "<group>"; };
+		F63C47BB247A5FA800209206 /* CollisionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,15 +112,18 @@
 		F63C4774247A32DE00209206 /* Snake */ = {
 			isa = PBXGroup;
 			children = (
+				F63C47A7247A334400209206 /* Anton */,
+				F63C47BA247A5FA200209206 /* CollisionDetector */,
+				F63C47B5247A4D9700209206 /* FileHandling */,
+				F63C47A9247A334400209206 /* Game scene */,
+				F63C47B2247A35CF00209206 /* GridNode */,
+				F63C47AD247A337200209206 /* Snake */,
 				F63C4775247A32DE00209206 /* AppDelegate.swift */,
-				F63C4777247A32DE00209206 /* GameScene.sks */,
-				F63C4779247A32DE00209206 /* Actions.sks */,
-				F63C477B247A32DE00209206 /* GameScene.swift */,
-				F63C477D247A32DE00209206 /* ViewController.swift */,
 				F63C477F247A32E100209206 /* Assets.xcassets */,
-				F63C4781247A32E100209206 /* Main.storyboard */,
 				F63C4784247A32E100209206 /* Info.plist */,
+				F63C4781247A32E100209206 /* Main.storyboard */,
 				F63C4785247A32E100209206 /* Snake.entitlements */,
+				F63C477D247A32DE00209206 /* ViewController.swift */,
 			);
 			path = Snake;
 			sourceTree = "<group>";
@@ -131,6 +144,56 @@
 				F63C479B247A32E100209206 /* Info.plist */,
 			);
 			path = SnakeUITests;
+			sourceTree = "<group>";
+		};
+		F63C47A7247A334400209206 /* Anton */ = {
+			isa = PBXGroup;
+			children = (
+				F63C47A8247A334400209206 /* Anton.swift */,
+			);
+			path = Anton;
+			sourceTree = "<group>";
+		};
+		F63C47A9247A334400209206 /* Game scene */ = {
+			isa = PBXGroup;
+			children = (
+				F63C47AA247A334400209206 /* GameScene.swift */,
+				F63C47B0247A33ED00209206 /* GameSceneExtension.swift */,
+			);
+			path = "Game scene";
+			sourceTree = "<group>";
+		};
+		F63C47AD247A337200209206 /* Snake */ = {
+			isa = PBXGroup;
+			children = (
+				F63C47AE247A337D00209206 /* Snake.swift */,
+			);
+			path = Snake;
+			sourceTree = "<group>";
+		};
+		F63C47B2247A35CF00209206 /* GridNode */ = {
+			isa = PBXGroup;
+			children = (
+				F63C47B3247A35DC00209206 /* GridNode.swift */,
+			);
+			path = GridNode;
+			sourceTree = "<group>";
+		};
+		F63C47B5247A4D9700209206 /* FileHandling */ = {
+			isa = PBXGroup;
+			children = (
+				F63C47B6247A4D9700209206 /* FileHandler.swift */,
+				F63C47B7247A4D9700209206 /* IterationData.csv */,
+			);
+			path = FileHandling;
+			sourceTree = "<group>";
+		};
+		F63C47BA247A5FA200209206 /* CollisionDetector */ = {
+			isa = PBXGroup;
+			children = (
+				F63C47BB247A5FA800209206 /* CollisionDetector.swift */,
+			);
+			path = CollisionDetector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,10 +300,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F63C4778247A32DE00209206 /* GameScene.sks in Resources */,
 				F63C4780247A32E100209206 /* Assets.xcassets in Resources */,
-				F63C477A247A32DE00209206 /* Actions.sks in Resources */,
 				F63C4783247A32E100209206 /* Main.storyboard in Resources */,
+				F63C47B9247A4D9700209206 /* IterationData.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,8 +327,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F63C47B4247A35DC00209206 /* GridNode.swift in Sources */,
+				F63C47B1247A33ED00209206 /* GameSceneExtension.swift in Sources */,
+				F63C47B8247A4D9700209206 /* FileHandler.swift in Sources */,
+				F63C47BC247A5FA800209206 /* CollisionDetector.swift in Sources */,
 				F63C477E247A32DE00209206 /* ViewController.swift in Sources */,
-				F63C477C247A32DE00209206 /* GameScene.swift in Sources */,
+				F63C47AB247A334400209206 /* Anton.swift in Sources */,
+				F63C47AF247A337D00209206 /* Snake.swift in Sources */,
+				F63C47AC247A334400209206 /* GameScene.swift in Sources */,
 				F63C4776247A32DE00209206 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
