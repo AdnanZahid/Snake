@@ -15,9 +15,9 @@ struct SnakeNode {
 }
 
 enum DirectionRelativeToMovement: Float {
-  case left
-  case front
-  case right
+  case left = -1
+  case front = 0
+  case right = 1
 }
 
 enum DirectionRelativeToGrid {
@@ -40,6 +40,11 @@ class Snake {
   private var currentFrames = 0
   private var numberOfColumns: Int
   private var numberOfRows: Int
+  private var oppositeDirectionMap: [DirectionRelativeToGrid: DirectionRelativeToGrid]
+    = [.up: .down,
+       .down: .up,
+       .left: .right,
+       .right: .left]
   private var directionMap: [DirectionRelativeToGrid: [DirectionRelativeToMovement: DirectionRelativeToGrid]]
     = [.up: [.front: .up,
              .left: .left,
@@ -53,6 +58,19 @@ class Snake {
        .right: [.front: .right,
                 .left: .up,
                 .right: .down]]
+  private var relativeDirectionMap: [DirectionRelativeToGrid: [DirectionRelativeToGrid: DirectionRelativeToMovement]]
+    = [.up: [.up: .front,
+             .left: .left,
+             .right: .right],
+       .down: [.down: .front,
+               .left: .right,
+               .right: .left],
+       .left: [.left: .front,
+               .down: .left,
+               .up: .right],
+       .right: [.right: .front,
+                .up: .left,
+                .down: .right]]
 
   init(x: Int, y: Int, numberOfColumns: Int, numberOfRows: Int) {
     self.numberOfColumns = numberOfColumns
@@ -115,6 +133,19 @@ class Snake {
 
   func getDirection() -> DirectionRelativeToGrid {
     return direction
+  }
+
+  func getDirection(relativeTo newDirection: DirectionRelativeToGrid?) -> DirectionRelativeToMovement {
+    guard let newDirection = newDirection else { return .front }
+    return relativeDirectionMap[direction]?[newDirection] ?? .front
+  }
+
+  func getOppositeDirection() -> DirectionRelativeToGrid? {
+    return oppositeDirectionMap[direction]
+  }
+
+  func setDirection(absoluteDirection: DirectionRelativeToGrid) {
+    direction = absoluteDirection
   }
 
   func setDirection(relativeDirection: DirectionRelativeToMovement) {

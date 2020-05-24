@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F62BCE78247A764B0014BB81 /* TutorialDatasetCSVAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62BCE77247A764B0014BB81 /* TutorialDatasetCSVAPI.swift */; };
 		F63C4776247A32DE00209206 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C4775247A32DE00209206 /* AppDelegate.swift */; };
 		F63C477E247A32DE00209206 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C477D247A32DE00209206 /* ViewController.swift */; };
 		F63C4780247A32E100209206 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F63C477F247A32E100209206 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F62BCE77247A764B0014BB81 /* TutorialDatasetCSVAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialDatasetCSVAPI.swift; sourceTree = "<group>"; };
 		F63C4772247A32DE00209206 /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63C4775247A32DE00209206 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F63C477D247A32DE00209206 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F62BCE76247A764B0014BB81 /* External code */ = {
+			isa = PBXGroup;
+			children = (
+				F62BCE77247A764B0014BB81 /* TutorialDatasetCSVAPI.swift */,
+			);
+			path = "External code";
+			sourceTree = "<group>";
+		};
 		F63C4769247A32DE00209206 = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +122,7 @@
 		F63C4774247A32DE00209206 /* Snake */ = {
 			isa = PBXGroup;
 			children = (
+				F62BCE76247A764B0014BB81 /* External code */,
 				F63C47A7247A334400209206 /* Anton */,
 				F63C47BA247A5FA200209206 /* CollisionDetector */,
 				F63C47B5247A4D9700209206 /* FileHandling */,
@@ -335,6 +346,7 @@
 				F63C47AB247A334400209206 /* Anton.swift in Sources */,
 				F63C47AF247A337D00209206 /* Snake.swift in Sources */,
 				F63C47AC247A334400209206 /* GameScene.swift in Sources */,
+				F62BCE78247A764B0014BB81 /* TutorialDatasetCSVAPI.swift in Sources */,
 				F63C4776247A32DE00209206 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

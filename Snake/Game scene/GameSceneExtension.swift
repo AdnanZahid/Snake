@@ -18,7 +18,7 @@ enum Constants {
 extension GameScene {
 
   var numberOfRows: Int { return Int(screenSize.height) / Constants.sizeOfRow }
-  var numberOfColumn: Int { return Int(screenSize.width) / Constants.sizeOfRow }
+  var numberOfColumns: Int { return Int(screenSize.width) / Constants.sizeOfColumn }
   var isGameOver: Bool { return snake.isDead }
 
   func setupGame() {
@@ -48,9 +48,14 @@ extension GameScene {
     screenSize = CGSize(width: frame.width, height: frame.height)
   }
 
+  func setupAnton() {
+    anton = Anton()
+    anton.performInitialTraining()
+  }
+
   func setupGrid() {
-    grid = [Int](0..<numberOfRows).map { row in
-      [Int](0..<numberOfColumn).map { column in
+    grid = [Int](0..<numberOfColumns).map { column in
+      [Int](0..<numberOfRows).map { row in
         GridNode(x: column,
                  y: row,
                  width: Constants.sizeOfColumn,
@@ -75,7 +80,7 @@ extension GameScene {
     guard let randomPosition = grid.randomElement()?.randomElement()?.getPosition() else { return }
     snake = Snake(x: randomPosition.x,
                   y: randomPosition.y,
-                  numberOfColumns: numberOfColumn,
+                  numberOfColumns: numberOfColumns,
                   numberOfRows: numberOfRows)
   }
 
@@ -87,28 +92,38 @@ extension GameScene {
   }
 
   func drawSnake() {
+    removeAllNodes()
     snake.getSprites().forEach { addChild($0) }
   }
 
   func updateSnake() {
-    guard !isGameOver else { gameOver(); return; }
-    let directions: [DirectionRelativeToMovement] = [.front, .left, .right]
+    // Generates random direction
+//    var absoluteDirections: [DirectionRelativeToGrid] = [.up, .down, .left, .right]
+//    absoluteDirections.removeAll { $0 == snake.getOppositeDirection() }
+//    newDirection = absoluteDirections.randomElement()
+
+    let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right]
     let isLeftBlocked = CollisionDetector.isLeftBlocked(snake: snake, grid: grid)
     let isFrontBlocked = CollisionDetector.isFrontBlocked(snake: snake, grid: grid)
     let isRightBlocked = CollisionDetector.isRightBlocked(snake: snake, grid: grid)
-    let allowedDirections = directions.filter { anton.shouldProceed(isLeftBlocked: isLeftBlocked,
-                                                                    isFrontBlocked: isFrontBlocked,
-                                                                    isRightBlocked: isRightBlocked,
-                                                                    suggestedDirection: $0) }
-    if let allowedDirection = allowedDirections.first {
-      snake.setDirection(relativeDirection: allowedDirection)
-      anton.saveResults(isLeftBlocked: isLeftBlocked,
-                        isFrontBlocked: isFrontBlocked,
-                        isRightBlocked: isRightBlocked,
-                        suggestedDirection: allowedDirection,
-                        shouldProceed: true)
-    }
+    let allowedDirections = relativeDirections.filter { anton.shouldProceed(isLeftBlocked: isLeftBlocked,
+                                                                            isFrontBlocked: isFrontBlocked,
+                                                                            isRightBlocked: isRightBlocked,
+                                                                            suggestedDirection: $0) }
+    var suggestedDirection = snake.getDirection(relativeTo: newDirection)
+    var shouldProceed = false
+        if let allowedDirection = allowedDirections.first {
+          suggestedDirection = allowedDirection
+    snake.setDirection(relativeDirection: suggestedDirection)
+        }
     moveSnake()
     drawSnake()
+    shouldProceed = !isGameOver
+    anton.saveResults(isLeftBlocked: isLeftBlocked,
+                      isFrontBlocked: isFrontBlocked,
+                      isRightBlocked: isRightBlocked,
+                      suggestedDirection: suggestedDirection,
+                      shouldProceed: shouldProceed)
+    if isGameOver { gameOver() }
   }
 }
