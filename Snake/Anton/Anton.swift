@@ -85,9 +85,19 @@ class Anton {
     let featuresDataset = [Tensor<Float>(features), Tensor<Float>(features)]
     let unlabeledDataset = Tensor<Float>(featuresDataset)
     let predictions = model(unlabeledDataset)
-    let normalizedPredictions = predictions.argmax(squeezingAxis: 1)
-    let integerPrediction = normalizedPredictions.scalars.first
-    let shouldProceed = integerPrediction == 0 ? false : true
+    let normalizedPredictions = predictions * -1
+    let integerPrediction = normalizedPredictions.scalars.first! * -1
+    let shouldProceed = abs(integerPrediction) > 0.4 ? true : false
+
+    print(unlabeledDataset)
+    print(predictions)
+    print(integerPrediction)
+    print(shouldProceed)
+
+    if shouldProceed {
+      print(shouldProceed)
+    }
+
     return shouldProceed
   }
 
@@ -99,18 +109,15 @@ class Anton {
     let _shouldProceed = shouldProceed.intValue
     let shouldProceedInFloat = _shouldProceed == 1 ? 0.99 : Float(_shouldProceed)
 
-    if !shouldProceed {
-      print(shouldProceed)
-    }
-
-    FileHandler.write(to: Constants.iterationDataFile,
-                      content: """
-      \(isLeftBlocked.intValue),\
-      \(isFrontBlocked.intValue),\
-      \(isRightBlocked.intValue),\
-      \(Int(suggestedDirection.rawValue)),\
-      \(shouldProceedInFloat)\n
-      """)
+//    guard !shouldProceed else { return }
+//    FileHandler.write(to: Constants.iterationDataFile,
+//                      content: """
+//      \(isLeftBlocked.intValue),\
+//      \(isFrontBlocked.intValue),\
+//      \(isRightBlocked.intValue),\
+//      \(Int(suggestedDirection.rawValue)),\
+//      \(shouldProceedInFloat)\n
+//      """)
   }
 
   func accuracy(predictions: Tensor<Int32>, truths: Tensor<Int32>) -> Float {

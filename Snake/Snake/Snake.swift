@@ -76,20 +76,21 @@ class Snake {
     self.numberOfColumns = numberOfColumns
     self.numberOfRows = numberOfRows
     nodes = [SnakeNode(x: x, y: y)]
+    direction = .up
 
-    switch (x, y) {
-    case let (x, _) where (x == 0):
-      direction = .right
-    case let (_, y) where (y == 0):
-      direction = .down
-    case let (x, _) where (x == numberOfColumns):
-      direction = .left
-    case let (_, y) where (y == numberOfRows):
-      direction = .up
-    case (_, _):
-      let directions: [DirectionRelativeToGrid] = [.up, .down, .left, .right]
-      direction = directions.randomElement() ?? .up
-    }
+//    switch (x, y) {
+//    case let (x, _) where (x == 0):
+//      direction = .right
+//    case let (_, y) where (y == 0):
+//      direction = .down
+//    case let (x, _) where (x == numberOfColumns):
+//      direction = .left
+//    case let (_, y) where (y == numberOfRows):
+//      direction = .up
+//    case (_, _):
+//      let directions: [DirectionRelativeToGrid] = [.up, .down, .left, .right]
+//      direction = directions.randomElement() ?? .up
+//    }
   }
 
   var shouldAnimate: Bool {
