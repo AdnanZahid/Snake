@@ -13,6 +13,7 @@ struct AntonInput {
   let isLeftBlocked: Bool
   let isFrontBlocked: Bool
   let isRightBlocked: Bool
+  let orthogonalAngleToFood: Float
   let suggestedDirection: DirectionRelativeToMovement
 }
 
@@ -37,11 +38,11 @@ class Anton {
   private enum Constants {
     static let iterationDataFile = "IterationData.csv"
     static let batchSize = 32
-    static let inputLayerSize = 4
-    static let hiddenLayerSize = 16
+    static let inputLayerSize = 5
+    static let hiddenLayerSize = 25
     static let outputLayerSize = 1
     static let learningRate: Float = 0.1
-    static let epochCount = 10
+    static let epochCount = 100
   }
 
   private var trainAccuracyResults: [Float] = []
@@ -49,8 +50,8 @@ class Anton {
   private var model = Model()
   private let trainDataset = Dataset(contentsOfCSVFile: Constants.iterationDataFile,
                                      hasHeader: true,
-                                     featureColumns: [0, 1, 2, 3],
-                                     labelColumns: [4]).batched(Constants.batchSize)
+                                     featureColumns: [0, 1, 2, 3, 4],
+                                     labelColumns: [5]).batched(Constants.batchSize)
 
   func performInitialTraining() {
     let optimizer = Adam(for: model, learningRate: Constants.learningRate)
@@ -78,10 +79,12 @@ class Anton {
     }
   }
 
-  func shouldProceed(inputs: [AntonInput], directions: [DirectionRelativeToMovement]) -> DirectionRelativeToMovement {
+  func shouldProceed(inputs: [AntonInput],
+                     directions: [DirectionRelativeToMovement]) -> DirectionRelativeToMovement {
     let features = inputs.map { Tensor<Float>([$0.isLeftBlocked.floatValue,
                                                $0.isFrontBlocked.floatValue,
                                                $0.isRightBlocked.floatValue,
+                                               $0.orthogonalAngleToFood,
                                                $0.suggestedDirection.rawValue]) }
     let predictions = model(Tensor<Float>(features)).flattened()
     let normalizedPredictions = predictions.argmax()
@@ -93,18 +96,26 @@ class Anton {
   func saveResults(isLeftBlocked: Bool,
                    isFrontBlocked: Bool,
                    isRightBlocked: Bool,
+                   orthogonalAngleToFood: Float,
                    suggestedDirection: DirectionRelativeToMovement,
-                   shouldProceed: Bool) {
-    let _shouldProceed = shouldProceed.intValue
-    let shouldProceedInFloat = _shouldProceed == 1 ? 0.99 : Float(_shouldProceed)
-    FileHandler.write(to: Constants.iterationDataFile,
-                      content: """
-      \(isLeftBlocked.intValue),\
-      \(isFrontBlocked.intValue),\
-      \(isRightBlocked.intValue),\
-      \(Int(suggestedDirection.rawValue)),\
-      \(shouldProceedInFloat)\n
-      """)
+                   decision: Int) {
+    let decisionInFloat: Float
+    if decision == 1 {
+      decisionInFloat = 0.99
+    } else if decision == -1 {
+      decisionInFloat = -0.99
+    } else {
+      decisionInFloat = Float(decision)
+    }
+//    FileHandler.write(to: Constants.iterationDataFile,
+//                      content: """
+//      \(isLeftBlocked.intValue),\
+//      \(isFrontBlocked.intValue),\
+//      \(isRightBlocked.intValue),\
+//      \(orthogonalAngleToFood),\
+//      \(Int(suggestedDirection.rawValue)),\
+//      \(decisionInFloat)\n
+//      """)
   }
 
   func accuracy(predictions: Tensor<Int32>, truths: Tensor<Int32>) -> Float {

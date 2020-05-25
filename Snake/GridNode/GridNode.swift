@@ -30,8 +30,6 @@ class GridNode {
     self.sprite = SKShapeNode(rect: CGRect(x: x * Constants.sizeOfColumn,
                                            y: y * Constants.sizeOfColumn,
                                            width: width, height: height))
-    self.sprite.strokeColor = .clear
-    self.sprite.fillColor = occupant == .wall ? .white : .clear
   }
 
   func getPosition() -> (x: Int, y: Int) {
@@ -39,6 +37,9 @@ class GridNode {
   }
 
   func getSprite() -> SKShapeNode {
+    sprite.strokeColor = .clear
+    sprite.fillColor = occupant == .wall ? .white : .clear
+    sprite.fillColor = occupant == .food ? .green : .clear
     return sprite
   }
 

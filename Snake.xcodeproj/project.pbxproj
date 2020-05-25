@@ -21,7 +21,7 @@
 		F63C47B4247A35DC00209206 /* GridNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47B3247A35DC00209206 /* GridNode.swift */; };
 		F63C47B8247A4D9700209206 /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47B6247A4D9700209206 /* FileHandler.swift */; };
 		F63C47B9247A4D9700209206 /* IterationData.csv in Resources */ = {isa = PBXBuildFile; fileRef = F63C47B7247A4D9700209206 /* IterationData.csv */; };
-		F63C47BC247A5FA800209206 /* CollisionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47BB247A5FA800209206 /* CollisionDetector.swift */; };
+		F63C47BC247A5FA800209206 /* GridHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C47BB247A5FA800209206 /* GridHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +63,7 @@
 		F63C47B3247A35DC00209206 /* GridNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridNode.swift; sourceTree = "<group>"; };
 		F63C47B6247A4D9700209206 /* FileHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
 		F63C47B7247A4D9700209206 /* IterationData.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IterationData.csv; sourceTree = "<group>"; };
-		F63C47BB247A5FA800209206 /* CollisionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionDetector.swift; sourceTree = "<group>"; };
+		F63C47BB247A5FA800209206 /* GridHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,7 +202,7 @@
 		F63C47BA247A5FA200209206 /* CollisionDetector */ = {
 			isa = PBXGroup;
 			children = (
-				F63C47BB247A5FA800209206 /* CollisionDetector.swift */,
+				F63C47BB247A5FA800209206 /* GridHelper.swift */,
 			);
 			path = CollisionDetector;
 			sourceTree = "<group>";
@@ -341,7 +341,7 @@
 				F63C47B4247A35DC00209206 /* GridNode.swift in Sources */,
 				F63C47B1247A33ED00209206 /* GameSceneExtension.swift in Sources */,
 				F63C47B8247A4D9700209206 /* FileHandler.swift in Sources */,
-				F63C47BC247A5FA800209206 /* CollisionDetector.swift in Sources */,
+				F63C47BC247A5FA800209206 /* GridHelper.swift in Sources */,
 				F63C477E247A32DE00209206 /* ViewController.swift in Sources */,
 				F63C47AB247A334400209206 /* Anton.swift in Sources */,
 				F63C47AF247A337D00209206 /* Snake.swift in Sources */,

@@ -22,6 +22,7 @@ extension GameScene {
   var numberOfRows: Int { return Int(screenSize.height) / Constants.sizeOfRow }
   var numberOfColumns: Int { return Int(screenSize.width) / Constants.sizeOfColumn }
   var isGameOver: Bool { return snake.isDead }
+  var didConsumeFood: Bool { return GridHelper.didConsumeFood(snake: snake, grid: grid) }
 
   func setupGame() {
     setupWorld()
@@ -29,6 +30,7 @@ extension GameScene {
     setupScore()
     setupDeathCount()
     setupSnake()
+    setupFood()
   }
 
   func restartGame() {
@@ -96,6 +98,20 @@ extension GameScene {
     grid[safe: snake.getX()]?[safe: snake.getY()]?.incrementStuckCount()
   }
 
+  func removeFood() {
+    let foodNode = GridHelper.foodNode(grid: grid)
+    foodNode?.setOccupant(.empty)
+    foodNode?.getSprite().removeFromParent()
+  }
+
+  func setupFood() {
+    guard let randomPosition = grid.randomElement()?.randomElement()?.getPosition(),
+          let gridNode = grid[safe: randomPosition.x]?[safe: randomPosition.y] else { return }
+    gridNode.setOccupant(.food)
+    gridNode.getSprite().removeFromParent()
+    gridLayerNode.addChild(gridNode.getSprite())
+  }
+
   func setupSnake() {
     guard let randomPosition = grid.randomElement()?.randomElement()?.getPosition() else { return }
     snake = Snake(x: randomPosition.x,
@@ -113,19 +129,19 @@ extension GameScene {
   }
 
   func mapSnakeToGrid() {
-    [Int](0..<numberOfColumns).forEach { column in
-      [Int](0..<numberOfRows).forEach { row in
-        var occupant = GridNodeOccupant.empty
-        if column == 0 || column == numberOfColumns - 1 ||
-            row == 0 || row == numberOfRows - 1 { occupant = .wall }
-        grid[safe: column]?[safe: row]?.setOccupant(occupant)
-      }
-    }
-    snake.getNodes().forEach {
-      let x = $0.x
-      let y = $0.y
-      grid[safe: x]?[safe: y]?.setOccupant(.snake)
-    }
+    //    [Int](0..<numberOfColumns).forEach { column in
+    //      [Int](0..<numberOfRows).forEach { row in
+    //        var occupant = GridNodeOccupant.empty
+    //        if column == 0 || column == numberOfColumns - 1 ||
+    //            row == 0 || row == numberOfRows - 1 { occupant = .wall }
+    //        grid[safe: column]?[safe: row]?.setOccupant(occupant)
+    //      }
+    //    }
+    //    snake.getNodes().forEach {
+    //      let x = $0.x
+    //      let y = $0.y
+    //      grid[safe: x]?[safe: y]?.setOccupant(.snake)
+    //    }
   }
 
   func clearSnake() {
@@ -139,36 +155,42 @@ extension GameScene {
   func updateSnake() {
     if isGameOver { gameOver() }
     let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right].shuffled()
-    let isLeftBlocked = CollisionDetector.isLeftBlocked(snake: snake, grid: grid)
-    let isFrontBlocked = CollisionDetector.isFrontBlocked(snake: snake, grid: grid)
-    let isRightBlocked = CollisionDetector.isRightBlocked(snake: snake, grid: grid)
+    let isLeftBlocked = GridHelper.isLeftBlocked(snake: snake, grid: grid)
+    let isFrontBlocked = GridHelper.isFrontBlocked(snake: snake, grid: grid)
+    let isRightBlocked = GridHelper.isRightBlocked(snake: snake, grid: grid)
+    let orthogonalAngleToFood = GridHelper.orthogonalAngleToFood(snake: snake, grid: grid)
     let antonInputs = relativeDirections.map { AntonInput(isLeftBlocked: isLeftBlocked,
                                                           isFrontBlocked: isFrontBlocked,
                                                           isRightBlocked: isRightBlocked,
+                                                          orthogonalAngleToFood: orthogonalAngleToFood,
                                                           suggestedDirection: $0) }
     var suggestedDirection: DirectionRelativeToMovement?
-    if CollisionDetector.isSnakeStuck(snake: snake, grid: grid),
+    if GridHelper.isSnakeStuck(snake: snake, grid: grid),
        let randomDirection = relativeDirections.randomElement() {
       snake.setDirection(relativeDirection: randomDirection)
       grid[safe: snake.getX()]?[safe: snake.getY()]?.resetStuckCount()
-    } else if isLeftBlocked || isFrontBlocked || isRightBlocked {
+    } else {
       suggestedDirection = anton.shouldProceed(inputs: antonInputs, directions: relativeDirections)
       if let _suggestedDirection = suggestedDirection {
         snake.setDirection(relativeDirection: _suggestedDirection)
       }
-    } else {
-      suggestedDirection = nil
     }
     incrementStuckCount()
     clearSnake()
+    let previousDistanceFromFood = GridHelper.distanceFromFood(snake: snake, grid: grid)
     moveSnake()
+    let currentDistanceFromFood = GridHelper.distanceFromFood(snake: snake, grid: grid)
+    if didConsumeFood { removeFood(); setupFood(); }
     mapSnakeToGrid()
     drawSnake()
     guard let _suggestedDirection = suggestedDirection else { return }
+    let didDistanceDecrease = currentDistanceFromFood < previousDistanceFromFood
+    let decision = isGameOver ? -1 : didDistanceDecrease.intValue
     anton.saveResults(isLeftBlocked: isLeftBlocked,
                       isFrontBlocked: isFrontBlocked,
                       isRightBlocked: isRightBlocked,
+                      orthogonalAngleToFood: orthogonalAngleToFood,
                       suggestedDirection: _suggestedDirection,
-                      shouldProceed: !isGameOver)
+                      decision: decision)
   }
 }
