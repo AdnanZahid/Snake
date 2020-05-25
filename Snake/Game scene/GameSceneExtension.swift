@@ -116,7 +116,7 @@ extension GameScene {
 
   func updateSnake() {
     if isGameOver { gameOver() }
-    let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right]//.shuffled()
+    let relativeDirections: [DirectionRelativeToMovement] = [.front, .left, .right].shuffled()
     let isLeftBlocked = CollisionDetector.isLeftBlocked(snake: snake, grid: grid)
     let isFrontBlocked = CollisionDetector.isFrontBlocked(snake: snake, grid: grid)
     let isRightBlocked = CollisionDetector.isRightBlocked(snake: snake, grid: grid)
@@ -126,11 +126,10 @@ extension GameScene {
                                                           suggestedDirection: $0) }
     if CollisionDetector.isSnakeStuck(snake: snake, grid: grid),
       let randomDirection = relativeDirections.randomElement() {
-//      snake.setDirection(relativeDirection: randomDirection)
-      gameOver()
+      snake.setDirection(relativeDirection: randomDirection)
+      grid[safe: snake.getX()]?[safe: snake.getY()]?.resetStuckCount()
     } else {
       snake.setDirection(relativeDirection: anton.shouldProceed(inputs: antonInputs, directions: relativeDirections))
-//      grid.forEach { $0.forEach { $0.resetStuckCount() } }
     }
     incrementStuckCount()
     clearSnake()
