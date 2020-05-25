@@ -88,7 +88,7 @@ class Snake {
   var isDead: Bool {
     let x = getX()
     let y = getY()
-    return x <= 0 || x >= numberOfColumns || y <= 0 || y >= numberOfRows
+    return x < 0 || x > numberOfColumns || y < 0 || y > numberOfRows
   }
 
   func incrementFrame() {
@@ -146,19 +146,20 @@ class Snake {
   }
 
   func moveSnake() {
-    var x = getX()
-    var y = getY()
-    switch direction {
-    case .up:
-      y += SnakeConstants.snakeSpeed
-    case .down:
-      y -= SnakeConstants.snakeSpeed
-    case .left:
-      x -= SnakeConstants.snakeSpeed
-    case .right:
-      x += SnakeConstants.snakeSpeed
+    nodes = nodes.map {
+      var x = $0.x
+      var y = $0.y
+      switch direction {
+      case .up:
+        y += SnakeConstants.snakeSpeed
+      case .down:
+        y -= SnakeConstants.snakeSpeed
+      case .left:
+        x -= SnakeConstants.snakeSpeed
+      case .right:
+        x += SnakeConstants.snakeSpeed
+      }
+      return SnakeNode(x: x, y: y)
     }
-    let node = SnakeNode(x: x, y: y)
-    nodes.insert(node, at: 0)
   }
 }
