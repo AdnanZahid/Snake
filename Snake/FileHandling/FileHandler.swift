@@ -27,7 +27,7 @@ class FileHandler {
         fileHandle.seekToEndOfFile()
         fileHandle.write(Data(content.utf8))
         fileHandle.closeFile()
-      } catch { print("an error happened while checking for the file") }
+      } catch { assertionFailure("An error happened while checking for the file") }
     }
   }
 }

@@ -75,9 +75,6 @@ class Anton {
       epochLoss /= Float(batchCount)
       trainAccuracyResults.append(epochAccuracy)
       trainLossResults.append(epochLoss)
-      if epoch % 50 == 0 {
-        print("Epoch \(epoch): Loss: \(epochLoss), Accuracy: \(epochAccuracy)")
-      }
     }
   }
 
@@ -90,12 +87,6 @@ class Anton {
     let normalizedPredictions = predictions.argmax()
     let integerPrediction = Int(normalizedPredictions.scalars.first!)
     let direction = directions[integerPrediction]
-    print(inputs.map { $0.suggestedDirection })
-    print(features)
-    print(predictions)
-    print(normalizedPredictions)
-    print(integerPrediction)
-    print(direction)
     return direction
   }
 
@@ -106,7 +97,6 @@ class Anton {
                    shouldProceed: Bool) {
     let _shouldProceed = shouldProceed.intValue
     let shouldProceedInFloat = _shouldProceed == 1 ? 0.99 : Float(_shouldProceed)
-    guard !shouldProceed else { return }
     FileHandler.write(to: Constants.iterationDataFile,
                       content: """
       \(isLeftBlocked.intValue),\

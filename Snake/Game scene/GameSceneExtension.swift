@@ -124,16 +124,28 @@ extension GameScene {
                                                           isFrontBlocked: isFrontBlocked,
                                                           isRightBlocked: isRightBlocked,
                                                           suggestedDirection: $0) }
+    var suggestedDirection: DirectionRelativeToMovement?
     if CollisionDetector.isSnakeStuck(snake: snake, grid: grid),
       let randomDirection = relativeDirections.randomElement() {
       snake.setDirection(relativeDirection: randomDirection)
       grid[safe: snake.getX()]?[safe: snake.getY()]?.resetStuckCount()
+    } else if isLeftBlocked || isFrontBlocked || isRightBlocked {
+      suggestedDirection = anton.shouldProceed(inputs: antonInputs, directions: relativeDirections)
+      if let _suggestedDirection = suggestedDirection {
+        snake.setDirection(relativeDirection: _suggestedDirection)
+      }
     } else {
-      snake.setDirection(relativeDirection: anton.shouldProceed(inputs: antonInputs, directions: relativeDirections))
+      suggestedDirection = nil
     }
     incrementStuckCount()
     clearSnake()
     moveSnake()
     drawSnake()
+    guard let _suggestedDirection = suggestedDirection else { return }
+    anton.saveResults(isLeftBlocked: isLeftBlocked,
+                      isFrontBlocked: isFrontBlocked,
+                      isRightBlocked: isRightBlocked,
+                      suggestedDirection: _suggestedDirection,
+                      shouldProceed: !isGameOver)
   }
 }
