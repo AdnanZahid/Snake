@@ -17,7 +17,10 @@ class GameScene: SKScene {
   var snake: Snake!
   var anton: Anton!
   var score = 0
+  var deathCount = 0
   let scoreLabel = SKLabelNode()
+  let deathLabel = SKLabelNode()
+  let snakeLayerNode = SKNode()
   var newDirection: DirectionRelativeToGrid?
 
   override func sceneDidLoad() {

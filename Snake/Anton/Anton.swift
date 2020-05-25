@@ -40,8 +40,8 @@ class Anton {
     static let inputLayerSize = 4
     static let hiddenLayerSize = 16
     static let outputLayerSize = 1
-    static let learningRate: Float = 0.01
-    static let epochCount = 500
+    static let learningRate: Float = 0.1
+    static let epochCount = 10
   }
 
   private var trainAccuracyResults: [Float] = []
@@ -81,33 +81,6 @@ class Anton {
     }
   }
 
-  func shouldProceed(isLeftBlocked: Bool,
-                     isFrontBlocked: Bool,
-                     isRightBlocked: Bool,
-                     suggestedDirection: DirectionRelativeToMovement) -> Bool {
-    let features = [isLeftBlocked.floatValue,
-                    isFrontBlocked.floatValue,
-                    isRightBlocked.floatValue,
-                    suggestedDirection.rawValue]
-    let featuresDataset = [Tensor<Float>(features), Tensor<Float>(features)]
-    let unlabeledDataset = Tensor<Float>(featuresDataset)
-    let predictions = model(unlabeledDataset)
-    let normalizedPredictions = predictions * -1
-    let integerPrediction = normalizedPredictions.scalars.first! * -1
-    let shouldProceed = abs(integerPrediction) > 0.4 ? true : false
-
-    print(unlabeledDataset)
-    print(predictions)
-    print(integerPrediction)
-    print(shouldProceed)
-
-    if shouldProceed {
-      print(shouldProceed)
-    }
-
-    return shouldProceed
-  }
-
   func shouldProceed(inputs: [AntonInput], directions: [DirectionRelativeToMovement]) -> DirectionRelativeToMovement {
     let features = inputs.map { Tensor<Float>([$0.isLeftBlocked.floatValue,
                                                $0.isFrontBlocked.floatValue,
@@ -117,14 +90,12 @@ class Anton {
     let normalizedPredictions = predictions.argmax()
     let integerPrediction = Int(normalizedPredictions.scalars.first!)
     let direction = directions[integerPrediction]
-
     print(inputs.map { $0.suggestedDirection })
     print(features)
     print(predictions)
     print(normalizedPredictions)
     print(integerPrediction)
     print(direction)
-
     return direction
   }
 
@@ -135,16 +106,15 @@ class Anton {
                    shouldProceed: Bool) {
     let _shouldProceed = shouldProceed.intValue
     let shouldProceedInFloat = _shouldProceed == 1 ? 0.99 : Float(_shouldProceed)
-
-//    guard !shouldProceed else { return }
-//    FileHandler.write(to: Constants.iterationDataFile,
-//                      content: """
-//      \(isLeftBlocked.intValue),\
-//      \(isFrontBlocked.intValue),\
-//      \(isRightBlocked.intValue),\
-//      \(Int(suggestedDirection.rawValue)),\
-//      \(shouldProceedInFloat)\n
-//      """)
+    guard !shouldProceed else { return }
+    FileHandler.write(to: Constants.iterationDataFile,
+                      content: """
+      \(isLeftBlocked.intValue),\
+      \(isFrontBlocked.intValue),\
+      \(isRightBlocked.intValue),\
+      \(Int(suggestedDirection.rawValue)),\
+      \(shouldProceedInFloat)\n
+      """)
   }
 
   func accuracy(predictions: Tensor<Int32>, truths: Tensor<Int32>) -> Float {

@@ -21,6 +21,7 @@ class GridNode {
   private var y: Int
   private var sprite: SKShapeNode
   private var occupant: GridNodeOccupant
+  private var stuckCount = 0
 
   init(x: Int, y: Int, width: Int, height: Int, occupant: GridNodeOccupant = .empty) {
     self.x = x
@@ -37,5 +38,17 @@ class GridNode {
 
   func getOccupant() -> GridNodeOccupant {
     return occupant
+  }
+
+  func getStuckCount() -> Int {
+    return stuckCount
+  }
+
+  func incrementStuckCount() {
+    stuckCount += 1
+  }
+
+  func resetStuckCount() {
+    stuckCount = 0
   }
 }

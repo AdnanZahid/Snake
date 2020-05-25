@@ -65,6 +65,13 @@ class CollisionDetector {
     }
     return decideIfBlocked(occupant: occupant)
   }
+
+  static func isSnakeStuck(snake: Snake, grid: [[GridNode]]) -> Bool {
+    let x = snake.getX()
+    let y = snake.getY()
+    guard let stuckCount = grid[safe: x]?[safe: y]?.getStuckCount() else { return true }
+    return stuckCount > 5
+  }
 }
 
 extension Collection {
