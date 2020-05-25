@@ -59,12 +59,18 @@ extension GameScene {
   func setupGrid() {
     grid = [Int](0..<numberOfColumns).map { column in
       [Int](0..<numberOfRows).map { row in
-        GridNode(x: column,
-                 y: row,
-                 width: Constants.sizeOfColumn,
-                 height: Constants.sizeOfRow)
+        var occupant = GridNodeOccupant.empty
+        if column == 0 || column == numberOfColumns - 1 ||
+            row == 0 || row == numberOfRows - 1 { occupant = .wall }
+        return GridNode(x: column,
+                        y: row,
+                        width: Constants.sizeOfColumn,
+                        height: Constants.sizeOfRow,
+                        occupant: occupant)
       }
     }
+    addChild(gridLayerNode)
+    grid.forEach { $0.forEach { gridLayerNode.addChild($0.getSprite()) } }
   }
 
   func setupScore() {
@@ -126,7 +132,7 @@ extension GameScene {
                                                           suggestedDirection: $0) }
     var suggestedDirection: DirectionRelativeToMovement?
     if CollisionDetector.isSnakeStuck(snake: snake, grid: grid),
-      let randomDirection = relativeDirections.randomElement() {
+       let randomDirection = relativeDirections.randomElement() {
       snake.setDirection(relativeDirection: randomDirection)
       grid[safe: snake.getX()]?[safe: snake.getY()]?.resetStuckCount()
     } else if isLeftBlocked || isFrontBlocked || isRightBlocked {

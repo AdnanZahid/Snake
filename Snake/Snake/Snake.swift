@@ -41,36 +41,36 @@ class Snake {
   private var numberOfColumns: Int
   private var numberOfRows: Int
   private var oppositeDirectionMap: [DirectionRelativeToGrid: DirectionRelativeToGrid]
-    = [.up: .down,
-       .down: .up,
-       .left: .right,
-       .right: .left]
+                = [.up: .down,
+                   .down: .up,
+                   .left: .right,
+                   .right: .left]
   private var directionMap: [DirectionRelativeToGrid: [DirectionRelativeToMovement: DirectionRelativeToGrid]]
-    = [.up: [.front: .up,
-             .left: .left,
-             .right: .right],
-       .down: [.front: .down,
-               .left: .right,
-               .right: .left],
-       .left: [.front: .left,
-               .left: .down,
-               .right: .up],
-       .right: [.front: .right,
-                .left: .up,
-                .right: .down]]
+                = [.up: [.front: .up,
+                         .left: .left,
+                         .right: .right],
+                   .down: [.front: .down,
+                           .left: .right,
+                           .right: .left],
+                   .left: [.front: .left,
+                           .left: .down,
+                           .right: .up],
+                   .right: [.front: .right,
+                            .left: .up,
+                            .right: .down]]
   private var relativeDirectionMap: [DirectionRelativeToGrid: [DirectionRelativeToGrid: DirectionRelativeToMovement]]
-    = [.up: [.up: .front,
-             .left: .left,
-             .right: .right],
-       .down: [.down: .front,
-               .left: .right,
-               .right: .left],
-       .left: [.left: .front,
-               .down: .left,
-               .up: .right],
-       .right: [.right: .front,
-                .up: .left,
-                .down: .right]]
+                = [.up: [.up: .front,
+                         .left: .left,
+                         .right: .right],
+                   .down: [.down: .front,
+                           .left: .right,
+                           .right: .left],
+                   .left: [.left: .front,
+                           .down: .left,
+                           .up: .right],
+                   .right: [.right: .front,
+                            .up: .left,
+                            .down: .right]]
 
   init(x: Int, y: Int, numberOfColumns: Int, numberOfRows: Int) {
     self.numberOfColumns = numberOfColumns
@@ -88,7 +88,7 @@ class Snake {
   var isDead: Bool {
     let x = getX()
     let y = getY()
-    return x < 0 || x > numberOfColumns || y < 0 || y > numberOfRows
+    return x <= 0 || x >= numberOfColumns || y <= 0 || y >= numberOfRows
   }
 
   func incrementFrame() {
@@ -96,11 +96,11 @@ class Snake {
   }
 
   func getX() -> Int {
-    return nodes.first?.x ?? 0
+    return nodes.first?.x ?? numberOfColumns/2
   }
 
   func getY() -> Int {
-    return nodes.first?.y ?? 0
+    return nodes.first?.y ?? numberOfRows/2
   }
 
   func getNodes() -> [SnakeNode] {

@@ -21,6 +21,7 @@ class GameScene: SKScene {
   let scoreLabel = SKLabelNode()
   let deathLabel = SKLabelNode()
   let snakeLayerNode = SKNode()
+  let gridLayerNode = SKNode()
   var newDirection: DirectionRelativeToGrid?
 
   override func sceneDidLoad() {
