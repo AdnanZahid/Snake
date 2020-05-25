@@ -46,6 +46,10 @@ class GridNode {
     return occupant
   }
 
+  func setOccupant(_ occupant: GridNodeOccupant) {
+    self.occupant = occupant
+  }
+
   func getStuckCount() -> Int {
     return stuckCount
   }

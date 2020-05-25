@@ -112,6 +112,22 @@ extension GameScene {
     }
   }
 
+  func mapSnakeToGrid() {
+    [Int](0..<numberOfColumns).forEach { column in
+      [Int](0..<numberOfRows).forEach { row in
+        var occupant = GridNodeOccupant.empty
+        if column == 0 || column == numberOfColumns - 1 ||
+            row == 0 || row == numberOfRows - 1 { occupant = .wall }
+        grid[safe: column]?[safe: row]?.setOccupant(occupant)
+      }
+    }
+    snake.getNodes().forEach {
+      let x = $0.x
+      let y = $0.y
+      grid[safe: x]?[safe: y]?.setOccupant(.snake)
+    }
+  }
+
   func clearSnake() {
     snakeLayerNode.removeAllChildren()
   }
@@ -146,6 +162,7 @@ extension GameScene {
     incrementStuckCount()
     clearSnake()
     moveSnake()
+    mapSnakeToGrid()
     drawSnake()
     guard let _suggestedDirection = suggestedDirection else { return }
     anton.saveResults(isLeftBlocked: isLeftBlocked,
