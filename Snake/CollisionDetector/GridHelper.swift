@@ -135,7 +135,7 @@ class GridHelper {
   private static func angle(between starting: CGPoint, ending: CGPoint) -> Float {
     let center = CGPoint(x: ending.x - starting.x, y: ending.y - starting.y)
     let radians = atan2(center.y, center.x)
-    return Float(radians.radiansToDegrees)
+    return Float(radians.radiansToDegrees).truncatingRemainder(dividingBy: 90)
   }
 }
 
